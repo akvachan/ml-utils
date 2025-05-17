@@ -1,7 +1,7 @@
 [project]
 name = "ml-utils"
 version = "0.1.0"
-description = "Add your description here"
+description = "ML utils dump"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = []
