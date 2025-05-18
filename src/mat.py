@@ -9,12 +9,11 @@ Description:
     eigenvalues, covariance, transformations and much more!
 
 Author: Arsenii Kvachan
-MIT License, 2024
+MIT License, 2025
 """
 
-from typing import List, TypeVar
-
 # Typedefs
+from typing import List, TypeVar
 Number = TypeVar("Number", int, float)
 
 
@@ -35,6 +34,9 @@ def dot_mat_vec(
 
     Returns:
         1D List with shape (n,)
+
+    Raises:
+        If column count does not match the vector length.
     """
 
     if not mat:
@@ -59,7 +61,10 @@ def tpose_mat(
         mat: 2D List of shape (n, m)
 
     Returns:
-        A new 2D List of shape (m, n).
+        A new 2D List of shape (m, n)
+
+    Raises:
+        If rows have different length.
     """
 
     if not mat:
@@ -69,3 +74,63 @@ def tpose_mat(
         raise ValueError("All rows must have the same length.")
 
     return [list(col) for col in zip(*mat)]
+
+
+def rshape_mat(
+    mat: List[List[Number]],
+    new_shape: tuple[int, int]
+) -> List[List[Number]]:
+    """
+    Reshape a 2D matrix using numpy.
+
+    Parameters:
+        mat: 2D List of shape (n, m)
+        new_shape: Tuple with the dimensions of new shape
+
+    Returns:
+        A new 2D List of shape (m, n)
+    """
+    import numpy as np
+
+    if not mat:
+        return []
+
+    return np.reshape(np.array(mat), shape=new_shape).tolist()
+
+
+def mean_mat(
+    mat: List[List[float]],
+    mode: str
+) -> List[float]:
+    """
+    Calculate the mean of a 2D matrix by row or by column,
+    based on a given mode.
+
+    Time: O(|rows|*|cols|)
+    Space: O(|rows or cols|)
+
+    Parameters:
+        mat: 2D List of shape
+        mode: Specific mode of calculation, can be 'row' or 'column'
+
+    Returns:
+        List of mean values
+
+    Raises:
+        TypeError: if matrix is not a 2D list
+        ValueError: if mode is invalid
+    """
+    if not mat:
+        return []
+
+    if not all(hasattr(row, "__iter__") for row in mat):
+        raise TypeError("'mat' must be a 2D sequence of numbers.")
+
+    match mode:
+        case "row":
+            return [sum(row)/len(row) for row in mat]
+        case "column":
+            return [sum(column)/len(column) for column in zip(*mat)]
+        case _:
+            raise ValueError(
+                f"Unknown mode '{mode}'. Valid values are 'row' and 'column'.")
