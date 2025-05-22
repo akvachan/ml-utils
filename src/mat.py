@@ -25,9 +25,6 @@ def dot_mat_vec(
     Simple matrix-vector dot-product without any optimizations
     on pure Python data types.
 
-    Time: O(|mat|*|vec|)
-    Space: O(|mat|)
-
     Parameters:
         mat: 2D List with shape (n, m)
         vec: 1D List with shape (m,)
@@ -53,9 +50,6 @@ def tpose_mat(
 ) -> List[List[Number]]:
     """
     Transpose a 2D matrix.
-
-    Time: O(|mat|*|mat|)
-    Space: O(|mat|)
 
     Parameters:
         mat: 2D List of shape (n, m)
@@ -99,15 +93,12 @@ def rshape_mat(
 
 
 def mean_mat(
-    mat: List[List[float]],
+    mat: List[List[Number]],
     mode: str
 ) -> List[float]:
     """
     Calculate the mean of a 2D matrix by row or by column,
     based on a given mode.
-
-    Time: O(|rows|*|cols|)
-    Space: O(|rows or cols|)
 
     Parameters:
         mat: 2D List of shape
@@ -134,3 +125,36 @@ def mean_mat(
         case _:
             raise ValueError(
                 f"Unknown mode '{mode}'. Valid values are 'row' and 'column'.")
+
+
+def hadamard(
+    matA: List[List[Number]],
+    matB: List[List[Number]],
+) -> List[List[Number]]:
+    """
+    The elementwise product of two matrices.
+
+    Parameters:
+        matA: 2D List with shape (n, m)
+        matB: 2D List with shape (n, m)
+
+    Returns:
+        2D List with shape (n, m)
+
+    Raises:
+        If dimensions are not compatible.
+    """
+
+    if not matA or not matB:
+        return [[]]
+
+    if any(len(rowA) != len(rowB) for rowA in matA for rowB in matB) \
+            or len(matA) != len(matB):
+        raise ValueError(
+            "Rows and columns of matrix A and B should have same length.")
+
+    for i in range(len(matA)):
+        for j in range(len(matA[i])):
+            matA[i][j] *= matB[i][j]
+
+    return matA
