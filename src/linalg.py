@@ -2,10 +2,10 @@
 # -*- coding: utf-8 -*-
 
 """
-Module Name: mat.py
+Module Name: linalg.py
 
 Description:
-    Matrix multiplication, transposition, reshape,
+    Linear algebra module for matrix multiplication, transposition, reshape,
     eigenvalues, covariance, transformations and much more!
 
 Author: Arsenii Kvachan
@@ -13,12 +13,12 @@ MIT License, 2025
 """
 
 # Typedefs
-from typing import List, TypeVar
+from typing import List, TypeVar, Optional
 Number = TypeVar("Number", int, float)
 
 
 def dot_mat_vec(
-    mat: List[Number],
+    mat: List[List[Number]],
     vec: List[Number],
 ) -> List[Number]:
     """
@@ -33,7 +33,7 @@ def dot_mat_vec(
         1D List with shape (n,)
 
     Raises:
-        If column count does not match the vector length.
+        ValueError: if column count does not match the vector length
     """
 
     if not mat:
@@ -43,6 +43,34 @@ def dot_mat_vec(
         raise ValueError("All rows must match vector length.")
 
     return [sum(a * b for a, b in zip(row, vec)) for row in mat]
+
+
+def dot_vec_vec(
+    vecA: List[Number],
+    vecB: List[Number],
+) -> Optional[Number]:
+    """
+    Simple matrix-vector dot-product without any optimizations
+    on pure Python data types.
+
+    Parameters:
+        vecA: 1D List
+        vecB: 1D List
+
+    Returns:
+        Scalar value or None
+
+    Raises:
+        ValueError: if lengths of vector do not match
+    """
+
+    if not vecA or not vecB:
+        return None
+
+    if len(vecA) != len(vecB):
+        raise ValueError("Vectors should have same length.")
+
+    return sum(vecA[i]*vecB[i] for i in range(len(vecA)))
 
 
 def tpose_mat(
@@ -58,7 +86,7 @@ def tpose_mat(
         A new 2D List of shape (m, n)
 
     Raises:
-        If rows have different length.
+        ValueError: if rows have different length
     """
 
     if not mat:
@@ -142,7 +170,7 @@ def hadamard(
         2D List with shape (n, m)
 
     Raises:
-        If dimensions are not compatible.
+        ValueError: if dimensions are not compatible
     """
 
     if not matA or not matB:
