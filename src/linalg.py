@@ -155,7 +155,7 @@ def mean_mat(
                 f"Unknown mode '{mode}'. Valid values are 'row' and 'column'.")
 
 
-def hadamard(
+def mult_mat_mat(
     matA: List[List[Number]],
     matB: List[List[Number]],
 ) -> List[List[Number]]:
@@ -186,3 +186,23 @@ def hadamard(
             matA[i][j] *= matB[i][j]
 
     return matA
+
+
+def mult_mat_mat(
+    matA: List[List[Number]],
+    matB: List[List[Number]],
+) -> List[List[Number]]:
+    """
+    Matrix–matrix multiplication.
+
+    Parameters:
+        matA: 2D List with shape (n, m)
+        matB: 2D List with shape (n, m)
+
+    Returns:
+        2D List with shape (n, m)
+
+    Raises:
+        ValueError: if dimensions are not compatible
+    """
+    pass
