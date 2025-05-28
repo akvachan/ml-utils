@@ -15,10 +15,14 @@ import numpy as np
 
 # Typedefs
 from typing import List, TypeVar
+
 Number = TypeVar("Number", int, float)
 
 
-def solve_linreg(X: List[List[Number]], y: List[Number]) -> List[Number]:
+def solve_linreg(
+    X: List[List[Number]],
+    y: List[Number],
+) -> List[Number]:
     """
     Solves linear regression analytically using the normal equation.
     Assumes the quadratic loss function (MSE).
@@ -41,8 +45,7 @@ def solve_linreg(X: List[List[Number]], y: List[Number]) -> List[Number]:
         return []
 
     if any(len(row) != len(X[0]) for row in X):
-        raise ValueError(
-            "All rows of X must have the same number of features.")
+        raise ValueError("All rows of X must have the same number of features.")
 
     if len(X) != len(y):
         raise ValueError("Number of samples in X and y must match.")
@@ -55,7 +58,8 @@ def solve_linreg(X: List[List[Number]], y: List[Number]) -> List[Number]:
     rank = np.linalg.matrix_rank(X_with_bias)
     if rank < min(X_with_bias.shape[0], X_with_bias.shape[1]):
         raise ValueError(
-            "Some features are linearly dependent. Cannot solve analytically.")
+            "Some features are linearly dependent. Cannot solve analytically."
+        )
 
     w = np.linalg.pinv(X_with_bias.T @ X_with_bias) @ X_with_bias.T @ y_np
     return w.flatten().tolist()

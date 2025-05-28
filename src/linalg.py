@@ -14,6 +14,7 @@ MIT License, 2025
 
 # Typedefs
 from typing import List, TypeVar, Optional
+
 Number = TypeVar("Number", int, float)
 
 
@@ -70,7 +71,7 @@ def dot_vec_vec(
     if len(vecA) != len(vecB):
         raise ValueError("Vectors should have same length.")
 
-    return sum(vecA[i]*vecB[i] for i in range(len(vecA)))
+    return sum(vecA[i] * vecB[i] for i in range(len(vecA)))
 
 
 def tpose_mat(
@@ -100,7 +101,7 @@ def tpose_mat(
 
 def rshape_mat(
     mat: List[List[Number]],
-    new_shape: tuple[int, int]
+    new_shape: tuple[int, int],
 ) -> List[List[Number]]:
     """
     Reshape a 2D matrix using numpy.
@@ -122,7 +123,7 @@ def rshape_mat(
 
 def mean_mat(
     mat: List[List[Number]],
-    mode: str
+    mode: str,
 ) -> List[float]:
     """
     Calculate the mean of a 2D matrix by row or by column,
@@ -147,12 +148,13 @@ def mean_mat(
 
     match mode:
         case "row":
-            return [sum(row)/len(row) for row in mat]
+            return [sum(row) / len(row) for row in mat]
         case "column":
-            return [sum(column)/len(column) for column in zip(*mat)]
+            return [sum(column) / len(column) for column in zip(*mat)]
         case _:
             raise ValueError(
-                f"Unknown mode '{mode}'. Valid values are 'row' and 'column'.")
+                f"Unknown mode '{mode}'. Valid values are 'row' and 'column'."
+            )
 
 
 def mult_mat_mat(
@@ -176,10 +178,10 @@ def mult_mat_mat(
     if not matA or not matB:
         return [[]]
 
-    if any(len(rowA) != len(rowB) for rowA in matA for rowB in matB) \
-            or len(matA) != len(matB):
-        raise ValueError(
-            "Rows and columns of matrix A and B should have same length.")
+    if any(len(rowA) != len(rowB) for rowA in matA for rowB in matB) or len(
+        matA
+    ) != len(matB):
+        raise ValueError("Rows and columns of matrix A and B should have same length.")
 
     for i in range(len(matA)):
         for j in range(len(matA[i])):

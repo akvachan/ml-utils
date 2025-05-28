@@ -34,7 +34,7 @@ def set_figsize(figsize: Tuple[float, float] = (17.5, 17.5)) -> None:
     Parameters:
         figsize (tuple): A tuple of width and height in inches.
     """
-    plt.rcParams['figure.figsize'] = figsize
+    plt.rcParams["figure.figsize"] = figsize
 
 
 def set_axes(
@@ -45,7 +45,7 @@ def set_axes(
     ylim: Optional[Tuple[float, float]],
     xscale: str,
     yscale: str,
-    legend: Union[List[str], Tuple[str, ...], None]
+    legend: Union[List[str], Tuple[str, ...], None],
 ) -> None:
     """
     Configure axes with labels, limits, scales, legend, and grid.
@@ -77,18 +77,17 @@ def set_axes(
 
 def plot(
     X: Union[Sequence[float], Sequence[Sequence[float]], np.ndarray],
-    Y: Optional[Union[Sequence[float],
-                      Sequence[Sequence[float]], np.ndarray]] = None,
+    Y: Optional[Union[Sequence[float], Sequence[Sequence[float]], np.ndarray]] = None,
     xlabel: Optional[str] = None,
     ylabel: Optional[str] = None,
     legend: Union[List[str], Tuple[str, ...]] = [],
     xlim: Optional[Tuple[float, float]] = None,
     ylim: Optional[Tuple[float, float]] = None,
-    xscale: str = 'linear',
-    yscale: str = 'linear',
-    fmts: Tuple[str, ...] = ('-', 'm--', 'g-.', 'r:'),
+    xscale: str = "linear",
+    yscale: str = "linear",
+    fmts: Tuple[str, ...] = ("-", "m--", "g-.", "r:"),
     figsize: Tuple[float, float] = (17.5, 17.5),
-    axes: Optional[Axes] = None
+    axes: Optional[Axes] = None,
 ) -> None:
     """
     Plot data using matplotlib with flexible support for multiple series.
@@ -107,6 +106,7 @@ def plot(
         figsize (tuple): Size of the figure in inches.
         axes (Axes, optional): Matplotlib Axes to plot on.
     """
+
     def has_one_axis(X: Union[Sequence[float], np.ndarray]) -> bool:
         """
         Determine if input is a 1D structure.
@@ -117,8 +117,12 @@ def plot(
         Returns:
             bool: True if X is 1D, False otherwise.
         """
-        return (hasattr(X, "ndim") and X.ndim == 1 or
-                isinstance(X, list) and not hasattr(X[0], "__len__"))
+        return (
+            hasattr(X, "ndim")
+            and X.ndim == 1
+            or isinstance(X, list)
+            and not hasattr(X[0], "__len__")
+        )
 
     if has_one_axis(X):
         X = [X]
