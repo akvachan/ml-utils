@@ -12,16 +12,13 @@ Author: Arsenii Kvachan
 MIT License, 2025
 """
 
-# Typedefs
-from typing import List, TypeVar, Optional
-
-Number = TypeVar("Number", int, float)
+from typing import List, Optional, Tuple
 
 
 def dot_mat_vec(
-    mat: List[List[Number]],
-    vec: List[Number],
-) -> List[Number]:
+    mat: List[List[int | float]],
+    vec: List[int | float],
+) -> List[int | float]:
     """
     Simple matrix-vector dot-product without any optimizations
     on pure Python data types.
@@ -47,9 +44,9 @@ def dot_mat_vec(
 
 
 def dot_vec_vec(
-    vecA: List[Number],
-    vecB: List[Number],
-) -> Optional[Number]:
+    vecA: List[int | float],
+    vecB: List[int | float],
+) -> Optional[int | float]:
     """
     Simple matrix-vector dot-product without any optimizations
     on pure Python data types.
@@ -75,8 +72,8 @@ def dot_vec_vec(
 
 
 def tpose_mat(
-    mat: List[List[Number]],
-) -> List[List[Number]]:
+    mat: List[List[int | float]],
+) -> List[List[int | float]]:
     """
     Transpose a 2D matrix.
 
@@ -100,9 +97,9 @@ def tpose_mat(
 
 
 def rshape_mat(
-    mat: List[List[Number]],
-    new_shape: tuple[int, int],
-) -> List[List[Number]]:
+    mat: List[List[int | float]],
+    new_shape: Tuple[int, int],
+) -> List[List[int | float]]:
     """
     Reshape a 2D matrix using numpy.
 
@@ -122,7 +119,7 @@ def rshape_mat(
 
 
 def mean_mat(
-    mat: List[List[Number]],
+    mat: List[List[int | float]],
     mode: str,
 ) -> List[float]:
     """
@@ -152,15 +149,13 @@ def mean_mat(
         case "column":
             return [sum(column) / len(column) for column in zip(*mat)]
         case _:
-            raise ValueError(
-                f"Unknown mode '{mode}'. Valid values are 'row' and 'column'."
-            )
+            raise ValueError(f"Unknown mode '{mode}'. Valid values are 'row' and 'column'.")
 
 
 def mult_mat_mat(
-    matA: List[List[Number]],
-    matB: List[List[Number]],
-) -> List[List[Number]]:
+    matA: List[List[int | float]],
+    matB: List[List[int | float]],
+) -> List[List[int | float]]:
     """
     The elementwise product of two matrices.
 
@@ -178,9 +173,7 @@ def mult_mat_mat(
     if not matA or not matB:
         return [[]]
 
-    if any(len(rowA) != len(rowB) for rowA in matA for rowB in matB) or len(
-        matA
-    ) != len(matB):
+    if any(len(rowA) != len(rowB) for rowA in matA for rowB in matB) or len(matA) != len(matB):
         raise ValueError("Rows and columns of matrix A and B should have same length.")
 
     for i in range(len(matA)):
@@ -188,23 +181,3 @@ def mult_mat_mat(
             matA[i][j] *= matB[i][j]
 
     return matA
-
-
-def mult_mat_mat(
-    matA: List[List[Number]],
-    matB: List[List[Number]],
-) -> List[List[Number]]:
-    """
-    Matrix–matrix multiplication.
-
-    Parameters:
-        matA: 2D List with shape (n, m)
-        matB: 2D List with shape (n, m)
-
-    Returns:
-        2D List with shape (n, m)
-
-    Raises:
-        ValueError: if dimensions are not compatible
-    """
-    pass

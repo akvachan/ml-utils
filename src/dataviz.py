@@ -13,10 +13,7 @@ MIT License, 2025
 
 import matplotlib
 import matplotlib.pyplot as plt
-import numpy as np
 from matplotlib.axes import Axes
-
-# Typedefs
 from typing import Optional, Union, List, Tuple, Sequence
 
 
@@ -76,8 +73,8 @@ def set_axes(
 
 
 def plot(
-    X: Union[Sequence[float], Sequence[Sequence[float]], np.ndarray],
-    Y: Optional[Union[Sequence[float], Sequence[Sequence[float]], np.ndarray]] = None,
+    X: Union[Sequence[float], Sequence[Sequence[float]]],
+    Y: Optional[Union[Sequence[float], Sequence[Sequence[float]]]] = None,
     xlabel: Optional[str] = None,
     ylabel: Optional[str] = None,
     legend: Union[List[str], Tuple[str, ...]] = [],
@@ -107,7 +104,7 @@ def plot(
         axes (Axes, optional): Matplotlib Axes to plot on.
     """
 
-    def has_one_axis(X: Union[Sequence[float], np.ndarray]) -> bool:
+    def has_one_axis(X: Union[Sequence[float]]) -> bool:
         """
         Determine if input is a 1D structure.
 

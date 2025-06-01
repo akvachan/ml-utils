@@ -9,3 +9,20 @@ dependencies = [
     "matplotlib>=3.10.3",
     "numpy>=2.2.6",
 ]
+
+[tool.ruff]
+line-length = 100
+fix = true
+show-fixes = true
+
+[tool.ruff.lint]
+extend-select = ["E", "F", "I", "B", "UP", "C90", "PERF"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+docstring-code-format = true
+docstring-code-line-length = 80
+
+[tool.ruff.lint.mccabe]
+max-complexity = 5
