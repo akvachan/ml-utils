@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
 """
 Module Name: linalg.py
@@ -12,23 +11,14 @@ Author: Arsenii Kvachan
 MIT License, 2025
 """
 
-from typing import List, Optional, Tuple
-
 
 def dot_mat_vec(
-    mat: List[List[int | float]],
-    vec: List[int | float],
-) -> List[int | float]:
+    mat: list[list[int | float]],
+    vec: list[int | float],
+) -> list[int | float]:
     """
     Simple matrix-vector dot-product without any optimizations
     on pure Python data types.
-
-    Parameters:
-        mat: 2D List with shape (n, m)
-        vec: 1D List with shape (m,)
-
-    Returns:
-        1D List with shape (n,)
 
     Raises:
         ValueError: if column count does not match the vector length
@@ -40,23 +30,16 @@ def dot_mat_vec(
     if any(len(row) != len(vec) for row in mat):
         raise ValueError("All rows must match vector length.")
 
-    return [sum(a * b for a, b in zip(row, vec)) for row in mat]
+    return [sum(a * b for a, b in zip(row, vec, strict=False)) for row in mat]
 
 
 def dot_vec_vec(
-    vecA: List[int | float],
-    vecB: List[int | float],
-) -> Optional[int | float]:
+    vecA: list[int | float],
+    vecB: list[int | float],
+) -> int | float | None:
     """
     Simple matrix-vector dot-product without any optimizations
     on pure Python data types.
-
-    Parameters:
-        vecA: 1D List
-        vecB: 1D List
-
-    Returns:
-        Scalar value or None
 
     Raises:
         ValueError: if lengths of vector do not match
@@ -72,16 +55,10 @@ def dot_vec_vec(
 
 
 def tpose_mat(
-    mat: List[List[int | float]],
-) -> List[List[int | float]]:
+    mat: list[list[int | float]],
+) -> list[list[int | float]]:
     """
     Transpose a 2D matrix.
-
-    Parameters:
-        mat: 2D List of shape (n, m)
-
-    Returns:
-        A new 2D List of shape (m, n)
 
     Raises:
         ValueError: if rows have different length
@@ -93,22 +70,15 @@ def tpose_mat(
     if any(len(row) != len(mat[0]) for row in mat):
         raise ValueError("All rows must have the same length.")
 
-    return [list(col) for col in zip(*mat)]
+    return [list(col) for col in zip(*mat, strict=False)]
 
 
 def rshape_mat(
-    mat: List[List[int | float]],
-    new_shape: Tuple[int, int],
-) -> List[List[int | float]]:
+    mat: list[list[int | float]],
+    new_shape: tuple[int, int],
+) -> list[list[int | float]]:
     """
     Reshape a 2D matrix using numpy.
-
-    Parameters:
-        mat: 2D List of shape (n, m)
-        new_shape: Tuple with the dimensions of new shape
-
-    Returns:
-        A new 2D List of shape (m, n)
     """
     import numpy as np
 
@@ -119,19 +89,12 @@ def rshape_mat(
 
 
 def mean_mat(
-    mat: List[List[int | float]],
+    mat: list[list[int | float]],
     mode: str,
-) -> List[float]:
+) -> list[float]:
     """
     Calculate the mean of a 2D matrix by row or by column,
     based on a given mode.
-
-    Parameters:
-        mat: 2D List of shape
-        mode: Specific mode of calculation, can be 'row' or 'column'
-
-    Returns:
-        List of mean values
 
     Raises:
         TypeError: if matrix is not a 2D list
@@ -147,24 +110,19 @@ def mean_mat(
         case "row":
             return [sum(row) / len(row) for row in mat]
         case "column":
-            return [sum(column) / len(column) for column in zip(*mat)]
+            return [sum(column) / len(column) for column in zip(*mat, strict=False)]
         case _:
-            raise ValueError(f"Unknown mode '{mode}'. Valid values are 'row' and 'column'.")
+            raise ValueError(
+                f"Unknown mode '{mode}'. Valid values are 'row' and 'column'."
+            )
 
 
 def mult_mat_mat(
-    matA: List[List[int | float]],
-    matB: List[List[int | float]],
-) -> List[List[int | float]]:
+    matA: list[list[int | float]],
+    matB: list[list[int | float]],
+) -> list[list[int | float]]:
     """
     The elementwise product of two matrices.
-
-    Parameters:
-        matA: 2D List with shape (n, m)
-        matB: 2D List with shape (n, m)
-
-    Returns:
-        2D List with shape (n, m)
 
     Raises:
         ValueError: if dimensions are not compatible
@@ -173,7 +131,9 @@ def mult_mat_mat(
     if not matA or not matB:
         return [[]]
 
-    if any(len(rowA) != len(rowB) for rowA in matA for rowB in matB) or len(matA) != len(matB):
+    if any(len(rowA) != len(rowB) for rowA in matA for rowB in matB) or len(
+        matA
+    ) != len(matB):
         raise ValueError("Rows and columns of matrix A and B should have same length.")
 
     for i in range(len(matA)):
